@@ -1,0 +1,4 @@
+
+docker pull postgres
+
+docker run --name pg14 -e POSTGRES_PASSWORD=postgres --detach --publish 127.0.0.1:5432:5432 postgres
