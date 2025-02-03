@@ -1,4 +1,4 @@
-package com.eviden.e2e.repository;
+package com.eviden.e2e.converter.repository;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

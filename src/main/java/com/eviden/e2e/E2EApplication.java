@@ -2,15 +2,13 @@ package com.eviden.e2e;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.eviden.e2e.model.Contract;
 import com.eviden.e2e.model.Organisation;
@@ -21,6 +19,7 @@ import com.eviden.e2e.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
+@EnableScheduling
 @SpringBootApplication
 public class E2EApplication {
 	
@@ -90,14 +89,14 @@ public class E2EApplication {
 	    System.out.println(newUser2);
 	   
 	    Organisation organisation = new Organisation();
-	    organisation = organisationRepository.selectById((long) 652);
+	    organisation = organisationRepository.selectById((long) 702);
 	    System.out.println(organisation.getName());
 	   
 	    List<User> users = userRepository.selectById((long) 602);
 	    users.forEach(user -> System.out.println(user.getEmail()));
 	   
 	    Organisation organisation2 = new Organisation();
-	    organisation2 = organisationRepository.selectOrganisationAndUsers((long) 652);
+	    organisation2 = organisationRepository.selectOrganisationAndUsers((long) 702);
 	    System.out.println(organisation2.getName());
 	    System.out.println(organisation2);
 	    

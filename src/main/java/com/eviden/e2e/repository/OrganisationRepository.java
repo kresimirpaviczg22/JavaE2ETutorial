@@ -14,6 +14,9 @@ public interface OrganisationRepository extends JpaRepository<Organisation, Long
     
     @Query("select o from Organisation o left join fetch o.users where o.id = :id")
     Organisation selectOrganisationAndUsers(@Param("id") Long id);
+    
+    @Query("select count(*) from Organisation")
+    Long getOrganisationCount();
 
     @Modifying
     @Query("update Organisation o set o.name = :name where o.id = :id")

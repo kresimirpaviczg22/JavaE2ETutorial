@@ -1,6 +1,6 @@
 package com.eviden.e2e.model;
 
-import com.eviden.e2e.repository.BooleanToYesNoConverter;
+import com.eviden.e2e.converter.repository.BooleanToYesNoConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
