@@ -19,7 +19,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Query("select count(*) from Contract")
     Long getContractCount();
 
-    @Query("SELECT c FROM Contract c WHERE c.endDate >= :fromToday and c.endDate <= :toDate")
+    @Query("select c from Contract c where c.endDate >= :fromToday and c.endDate <= :toDate")
     List<Contract> findAllExpiringContracts(@Param("fromToday") LocalDate fromToday, @Param("toDate") LocalDate toDate);
     
 }

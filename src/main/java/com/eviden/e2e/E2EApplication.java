@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.eviden.e2e.model.Contract;
 import com.eviden.e2e.model.Organisation;
@@ -35,7 +37,7 @@ public class E2EApplication {
 		SpringApplication.run(E2EApplication.class, args);
 	}
 
-	//@Transactional
+	@Transactional
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
 	    System.out.println("hello world, I have just started up");
@@ -98,5 +100,10 @@ public class E2EApplication {
 	    organisation2 = organisationRepository.selectOrganisationAndUsers((long) 652);
 	    System.out.println(organisation2.getName());
 	    System.out.println(organisation2);
+	    
+	    userRepository.updateNameById("user1", (long) 702);
+	    
+	    organisationRepository.updateNameById("novaFirma", (long) 802);
+	    organisationRepository.deleteById((long) 652);
 	}
 }
