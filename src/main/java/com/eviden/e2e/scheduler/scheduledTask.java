@@ -9,14 +9,13 @@ import com.eviden.e2e.repository.OrganisationRepository;
 import jakarta.transaction.Transactional;
 
 @Component
-public class scheduledTask {
+public class ScheduledTask {
 
 	@Autowired
 	private OrganisationRepository orgRepository;
 	
 
 	@Scheduled(cron = "${scheduled.licenceTrendUpdaterJob.cron}")
-	@Transactional
 	public void updateLicenceTrendReport(){
 		
 		Long orgCount = orgRepository.getOrganisationCount();

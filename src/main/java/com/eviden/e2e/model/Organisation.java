@@ -106,15 +106,16 @@ public class Organisation {
 
 	@Override
 	public String toString() {
-		return "Organisation [id=" + id +
-				", name=" + name + 
-				", address=" + address +
-				", city=" + city + 
-				", state=" + state + 
-				", country=" + country + 
-				", foundedDate=" + foundedDate + 
-				", users=" + users + 
-				"]";
+		return "Organisation {" +
+				"id=" + id +
+				", name=" + name + '\'' +
+				", address=" + address + '\'' +
+				", city=" + city + '\'' +
+				", state=" + state + '\'' +
+				", country=" + country + '\'' +
+				", foundedDate=" + foundedDate + '\'' +
+				", users=" + users + '\'' +
+				"}";
 	}
 		
 }
