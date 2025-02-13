@@ -45,7 +45,25 @@ public class Contract {
     public Contract(Long id) {
         setId(id);
     }
- 
+    
+    public Contract(Contract other) {
+        updateFrom(other);
+    }
+    
+    public Contract updateFrom(Contract other) {
+        if (other.getName() != null) setName(other.getName());
+        if (other.getNumber() != null) setNumber(other.getNumber());
+        if (other.getYear() != null) setYear(other.getYear());
+        if (other.getType() != null) setType(other.getType());
+        
+        if (other.getStartDate() != null) setStartDate(other.getStartDate());
+        if (other.getEndDate() != null) setEndDate(other.getEndDate());
+        
+        if (other.getVersion() != null) setVersion(other.getVersion());
+        
+        return this;
+    }
+    
 	public Long getId() {
 		return id;
 	}
