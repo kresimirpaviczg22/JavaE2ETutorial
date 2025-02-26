@@ -23,14 +23,14 @@ public class ContractController {
     ContractService contractService;
 
     @GetMapping
-    JsonMap getSoftwareLicenses() {
+    JsonMap getContracts() {
 
         return JsonMap.map()
                 .set("content", toDto(contractService.findAll()));
     }
  
     @PostMapping
-    Contract createSoftwareLicense(@RequestBody Contract data) {
+    Contract createContract(@RequestBody Contract data) {
         return toDto(contractService.create(data));
     }
 

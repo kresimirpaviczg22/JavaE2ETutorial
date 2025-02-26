@@ -31,9 +31,8 @@ public class User {
 	
 	@ManyToOne
 	@JoinColumn(name = "organisation_id")
-	@NotNull
 	private Organisation organisation;
-	
+
 	public User() {
 	}
 
@@ -68,15 +67,11 @@ public class User {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-	public Organisation getOrganisation() {
-		return organisation;
-	}
-
-	public void setOrganisation(Organisation organisation) {
+	
+    public void setOrganisation(Organisation organisation) {
 		this.organisation = organisation;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "User {" +

@@ -1,5 +1,8 @@
 package com.eviden.e2e;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +11,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.eviden.e2e.model.Organisation;
+import com.eviden.e2e.model.User;
 import com.eviden.e2e.repository.ContractRepository;
 import com.eviden.e2e.repository.OrganisationRepository;
 import com.eviden.e2e.repository.UserRepository;
@@ -50,25 +55,23 @@ public class E2EApplication {
 //	    System.out.println(newContract);
 //	    
 //	    Organisation newOrganisation = new Organisation();
-//	    newOrganisation.setName("Prva organizacija");
-//	    newOrganisation.setAddress("Ulica Andrije Kacica Miosica 62");
-//	    newOrganisation.setCity("Velika Gorica");
+//	    newOrganisation.setName("Eviden");
+//        newOrganisation.setAddress("Heinzelova 20");
+//	    newOrganisation.setCity("Zagreb");
+//	    newOrganisation.setState("Zagrebačka županija");
 //	    newOrganisation.setCountry("Hrvatska");
 //	    newOrganisation.setFoundedDate(LocalDate.now());
 //	    
 //	    organisationRepository.save(newOrganisation);
-//	    
 //	    System.out.println("Created organisation...");
-//	    System.out.println(newOrganisation);
-//	   
+//	    
 //	    User newUser = new User();
-//	    newUser.setUsername("korisnik1");
-//	    newUser.setEmail("korisnik1@gmail.com");
+//        newUser.setUsername("tmartincic");
+//	    newUser.setEmail("tmartincic@eviden.com");
 //	    newUser.setActive(true);
 //	    newUser.setOrganisation(newOrganisation);
-//	
+//	   
 //	    userRepository.save(newUser);
-//	    
 //	    System.out.println("Created first user...");
 //	    System.out.println(newUser);
 //	    
@@ -94,7 +97,7 @@ public class E2EApplication {
 //	    organisation2 = organisationRepository.selectOrganisationAndUsers((long) 702);
 //	    System.out.println(organisation2.getName());
 //	    System.out.println(organisation2);
-//	    
+//	   
 //	    userRepository.updateNameById("user1", (long) 702);
 //	    
 //	    organisationRepository.updateNameById("novaFirma", (long) 802);

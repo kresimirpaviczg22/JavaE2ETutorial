@@ -17,7 +17,7 @@ public class ScheduledTask {
 	private OrganisationRepository orgRepository;
 	
 
-	@Scheduled(cron = "${scheduled.licenceTrendUpdaterJob.cron}")
+	//@Scheduled(cron = "${scheduled.licenceTrendUpdaterJob.cron}")
 	public void updateLicenceTrendReport(){
 		
 		Long orgCount = orgRepository.getOrganisationCount();
