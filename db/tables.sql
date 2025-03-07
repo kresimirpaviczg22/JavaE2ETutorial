@@ -35,3 +35,28 @@ create table users (
   foreign key (organisation_id) references organisation(id) on delete cascade
 );
 
+-- car i engine
+
+create sequence public.cars_seq increment 50 start 1 minvalue 1;
+
+create table cars (
+	id bigint primary key not null,
+	engine_id bigint not null,
+	vin varchar(17) not null,
+	make varchar(255) not null,
+	model varchar(255) not null,
+	manufacturing_year int not null
+);
+
+create sequence public.engines_seq increment 50 start 1 minvalue 1;
+
+create table engines (
+	id bigint primary key not null,
+	manufacturer varchar(255) not null,
+	model varchar(255) not null,
+	manufacturing_year int not null,
+	volume int, -- electric engines do not measure in volume (cc)
+	engine_type varchar(255) not null
+);
+
+alter table engines drop column car_id;
