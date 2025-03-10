@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container mt-5">
+    <h2 class="mb-3">Car List</h2>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>VIN</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Engine ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="car-table-body">
+            <!-- Car data will be inserted here -->
+        </tbody>
+    </table>
+    
+    <h2 class="mb-3">Engine List</h2>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Type</th>
+                <th>Volume (CC)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="engine-table-body">
+            <!-- Car data will be inserted here -->
+        </tbody>
+    </table>
+    
+	<h2 class="mb-3">Add New Engine</h2>
+	<form id="add-engine-form">
+	    <input type="text" id="engine-manufacturer" placeholder="Manufacturer" required>
+	    <input type="text" id="engine-model" placeholder="Model" required>
+	    <input type="number" id="engine-year" placeholder="Year" required>
+	    <input type="number" id="engine-volume" placeholder="Volume" required>
+	    <select id="engineType" class="form-control" required>
+	        <option value="">Select an Engine Type</option>
+	        <option value="Petrol">Petrol</option>
+	        <option value="Electric">Electric</option>
+	        <option value="Diesel">Diesel</option>
+	    </select>
+	    <button type="submit" class="btn btn-success">Add Engine</button>
+	</form>
+	
+	<h2 class="mb-3">Add New Car</h2>
+	<form id="add-car-form">
+	    <input type="text" id="car-vin" placeholder="VIN" required>
+	    <input type="text" id="car-make" placeholder="Make" required>
+	    <input type="text" id="car-model" placeholder="Model" required>
+	    <input type="number" id="car-year" placeholder="Year" required>
+	    <select id="engineList" class="form-control" required>
+	        <option value="">Select an Engine</option>
+	    </select>
+	    <button type="submit" class="btn btn-success">Add Car</button>
+	</form>
+
+	
+</body>
+
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchCars();
+            fetchEngines();
+            
+            
+            document.getElementById("add-car-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                addCar();
+            });
+        });
+
+        function fetchCars() {
+            fetch("/api/cars")
+                .then(response => response.json())
+                .then(data => {
+                    const cars = data.content; // Assuming JSON response has { "content": [...] }
+                    const tableBody = document.getElementById("car-table-body");
+                    tableBody.innerHTML = ""; // Clear existing rows
+
+                    cars.forEach(car => {
+                        const row = `
+                            <tr>
+                                <td>${car.id}</td>
+                                <td>${car.vin}</td>
+                                <td>${car.make}</td>
+                                <td>${car.model}</td>
+                                <td>${car.manufacturingYear}</td>
+                                <td>${car.engine.id}</td>
+                                <td><button class="btn btn-danger" onclick="deleteCar(${car.id})">Delete</button></td>
+                            </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error("Error fetching cars:", error));
+        }
+        
+        function fetchEngines() {
+            fetch("/api/engines")
+                .then(response => response.json())
+                .then(data => {
+                    const engines = data.content; // Assuming JSON response has { "content": [...] }
+                    const tableBody = document.getElementById("engine-table-body");
+                    tableBody.innerHTML = ""; // Clear existing rows
+
+                    engines.forEach(engine => {
+                        const row = `
+                            <tr>
+                                <td>${engine.id}</td>
+                                <td>${engine.manufacturer}</td>
+                                <td>${engine.model}</td>
+                                <td>${engine.manufacturingYear}</td>
+                                <td>${engine.engineType}</td>
+                                <td>${engine.volume}</td>
+                                <td><button class="btn btn-danger" onclick="deleteEngine(${engine.id})">Delete</button></td>
+                            </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                    
+          		  	const engineSelect = document.getElementById("engineList");
+	            	engineSelect.innerHTML = '<option value="">Select Engine</option>';
+	            	
+	                engines.forEach(engine => {
+	                    const option = document.createElement("option");
+	                    option.value = engine.id;
+	                    option.textContent = `Engine ${engine.id} - ${engine.manufacturer} ${engine.model}`;
+	                    engineSelect.appendChild(option);
+	                });
+	            	
+                })
+                .catch(error => console.error("Error fetching engines:", error));
+        }
+        
+        function addCar() {
+            const engineId = document.getElementById("engineList").value;
+
+            if (!engineId) {
+                alert("Please select an engine!");
+                return;
+            }
+
+            fetch(`/api/engines/${engineId}`)
+                .then(response => response.json())
+                .then(engine => {
+                    const carData = {
+                        vin: document.getElementById("car-vin").value,
+                        make: document.getElementById("car-make").value,
+                        model: document.getElementById("car-model").value,
+                        manufacturingYear: parseInt(document.getElementById("car-year").value),
+                        engine: engine // assign the entire engine object
+                    };
+
+                    console.log(JSON.stringify(carData));
+
+                    return fetch("/api/cars", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(carData)
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Car added successfully!");
+                    document.getElementById("add-car-form").reset();
+                    location.reload();
+                })
+                .catch(error => console.error("Error adding car:", error));
+        }
+
+        document.getElementById("add-engine-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            addEngine();
+        });
+
+        function addEngine() {
+            const engineData = {
+                manufacturer: document.getElementById("engine-manufacturer").value,
+                model: document.getElementById("engine-model").value,
+                manufacturingYear: parseInt(document.getElementById("engine-year").value),
+                volume: parseFloat(document.getElementById("engine-volume").value),
+                engineType: document.getElementById("engineType").value.toUpperCase()
+            };
+
+            console.log(JSON.stringify(engineData));
+
+            fetch("/api/engines", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(engineData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Engine added successfully!");
+                document.getElementById("add-engine-form").reset();
+                location.reload();
+            })
+            .catch(error => console.error("Error adding engine:", error));
+        }
+        
+        function deleteCar(carId) {
+            if (confirm("Are you sure you want to delete this car?")) {
+                fetch(`/api/cars/${carId}`, { method: "DELETE" })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Car deleted successfully!");
+                            fetchCars();
+                        } else {
+                            alert("Error deleting car!");
+                        }
+                    })
+                    .catch(error => console.error("Error deleting car:", error));
+            }
+        }
+
+        function deleteEngine(engineId) {
+            if (confirm("Are you sure you want to delete this engine?")) {
+                fetch(`/api/engines/${engineId}`, { method: "DELETE" })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Engine deleted successfully!");
+                            fetchEngines();
+                        } else {
+                            alert("Error deleting engine!");
+                        }
+                    })
+                    .catch(error => console.error("Error deleting engine:", error));
+            }
+        }
+</script>
+</html>
