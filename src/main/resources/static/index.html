@@ -90,7 +90,7 @@
             fetch("/api/cars")
                 .then(response => response.json())
                 .then(data => {
-                    const cars = data.content; // Assuming JSON response has { "content": [...] }
+                    const cars = data.content; 
                     const tableBody = document.getElementById("car-table-body");
                     tableBody.innerHTML = ""; // Clear existing rows
 
@@ -102,8 +102,11 @@
                                 <td>${car.make}</td>
                                 <td>${car.model}</td>
                                 <td>${car.manufacturingYear}</td>
-                                <td>${car.engine.id}</td>
-                                <td><button class="btn btn-danger" onclick="deleteCar(${car.id})">Delete</button></td>
+                                <td><a href="engine.html?id=${car.engine.id}" class="btn btn-info btn-sm">View Engine</a></td>
+                                <td>
+                                    <a href="car.html?id=${car.id}" class="btn btn-primary btn-sm">View Details</a>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteCar(${car.id})">Delete</button>
+                                </td>
                             </tr>`;
                         tableBody.innerHTML += row;
                     });
@@ -115,7 +118,7 @@
             fetch("/api/engines")
                 .then(response => response.json())
                 .then(data => {
-                    const engines = data.content; // Assuming JSON response has { "content": [...] }
+                    const engines = data.content; 
                     const tableBody = document.getElementById("engine-table-body");
                     tableBody.innerHTML = ""; // Clear existing rows
 
@@ -128,21 +131,24 @@
                                 <td>${engine.manufacturingYear}</td>
                                 <td>${engine.engineType}</td>
                                 <td>${engine.volume}</td>
-                                <td><button class="btn btn-danger" onclick="deleteEngine(${engine.id})">Delete</button></td>
+                                <td>
+                                    <a href="engine.html?id=${engine.id}" class="btn btn-primary btn-sm">View Details</a>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteEngine(${engine.id})">Delete</button>
+                                </td>
                             </tr>`;
                         tableBody.innerHTML += row;
                     });
+
+                    const engineSelect = document.getElementById("engineList");
+                    engineSelect.innerHTML = '<option value="">Select Engine</option>';
                     
-          		  	const engineSelect = document.getElementById("engineList");
-	            	engineSelect.innerHTML = '<option value="">Select Engine</option>';
-	            	
-	                engines.forEach(engine => {
-	                    const option = document.createElement("option");
-	                    option.value = engine.id;
-	                    option.textContent = `Engine ${engine.id} - ${engine.manufacturer} ${engine.model}`;
-	                    engineSelect.appendChild(option);
-	                });
-	            	
+                    engines.forEach(engine => {
+                        const option = document.createElement("option");
+                        option.value = engine.id;
+                        option.textContent = `Engine ${engine.id} - ${engine.manufacturer} ${engine.model}`;
+                        engineSelect.appendChild(option);
+                    });
+
                 })
                 .catch(error => console.error("Error fetching engines:", error));
         }

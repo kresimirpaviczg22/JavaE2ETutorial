@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engine Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container mt-5">
+    <h2 class="mb-3">Engine Details</h2>
+    
+    <table class="table table-bordered">
+        <tbody>
+            <tr><th>ID</th><td id="engine-id"></td></tr>
+            <tr><th>Manufacturer</th><td id="engine-manufacturer"></td></tr>
+            <tr><th>Model</th><td id="engine-model"></td></tr>
+            <tr><th>Year</th><td id="engine-year"></td></tr>
+            <tr><th>Type</th><td id="engine-type"></td></tr>
+            <tr><th>Volume (CC)</th><td id="engine-volume"></td></tr>
+        </tbody>
+    </table>
+
+    <a href="index.html" class="btn btn-secondary">Back to List</a>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const engineId = params.get("id");
+
+            if (!engineId) {
+                alert("Engine ID not provided!");
+                window.location.href = "index.html";
+                return;
+            }
+
+            fetch(`/api/engines/${engineId}`)
+                .then(response => response.json())
+                .then(engine => {
+                    document.getElementById("engine-id").textContent = engine.id;
+                    document.getElementById("engine-manufacturer").textContent = engine.manufacturer;
+                    document.getElementById("engine-model").textContent = engine.model;
+                    document.getElementById("engine-year").textContent = engine.manufacturingYear;
+                    document.getElementById("engine-type").textContent = engine.engineType;
+                    document.getElementById("engine-volume").textContent = engine.volume;
+                })
+                .catch(error => {
+                    console.error("Error fetching engine details:", error);
+                    alert("Engine not found!");
+                    window.location.href = "index.html";
+                });
+        });
+    </script>
+</body>
+</html>

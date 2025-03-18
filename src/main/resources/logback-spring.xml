@@ -2,7 +2,7 @@
 <configuration>
 
     <property name="LOG_ROOT" value="./logs" />
-    <property name="LOG_FILE_NAME" value="e2eTutorial" />
+    <property name="LOG_FILE_NAME" value="e2eTutorial" ></property>
 
     <appender name="Console"
         class="ch.qos.logback.core.ConsoleAppender">
@@ -37,5 +37,6 @@
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
+    <logger name="com.eviden.e2e.service.EngineService" level="INFO"/>
     
 </configuration>

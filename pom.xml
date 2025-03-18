@@ -82,7 +82,17 @@
 		<dependency>
     		<groupId>org.quartz-scheduler</groupId>
     		<artifactId>quartz</artifactId>
-    		</dependency>
+    	</dependency>
+    	<!-- SLF4J API -->
+	    <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-api</artifactId>
+	        </dependency>
+	    <!-- Logback (SLF4J Implementation) -->
+	    <dependency>
+	        <groupId>ch.qos.logback</groupId>
+	        <artifactId>logback-classic</artifactId>
+	    </dependency>
 
 	</dependencies>
 
